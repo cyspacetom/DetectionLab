@@ -2,7 +2,7 @@
 ## This is a fork of Clong's Detection Lab - I am leaving this readme intact as it's very helpful. I might make some modifications once I change a few things.
 ![DetectionLab](./img/DetectionLab.png)
 
-[![license](https://img.shields.io/github/license/clong/DetectionLab.svg?style=flat-square)](https://github.com/clong/DetectionLab/blob/master/license.md)
+[![license](https://img.shields.io/github/license/clong/DetectionLab.svg?style=flat-square)](https://github.com/maximumpigs/DetecionLab/LICENSE)
 
 ## Purpose
 This lab has been designed with defenders in mind. Its primary purpose is to allow the user to quickly build a Windows domain that comes pre-loaded with security tooling and some best practices when it comes to system logging configurations. It can easily be modified to fit most needs or expanded to include additional hosts.
