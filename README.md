@@ -1,5 +1,5 @@
 # Detection Lab
-## As of 2023-01-01, DetectionLab is no longer being actively maintained
+## This is a fork of Clong's Detection Lab - I am leaving this readme intact as it's very helpful. I might make some modifications once I change a few things.
 ![DetectionLab](./img/DetectionLab.png)
 
 DetectionLab is tested weekly on Saturdays via a scheduled CircleCI workflow to ensure that builds are passing.
