@@ -2,13 +2,7 @@
 ## This is a fork of Clong's Detection Lab - I am leaving this readme intact as it's very helpful. I might make some modifications once I change a few things.
 ![DetectionLab](./img/DetectionLab.png)
 
-DetectionLab is tested weekly on Saturdays via a scheduled CircleCI workflow to ensure that builds are passing.
-
-![Lint Code Base](https://github.com/clong/DetectionLab/workflows/Lint%20Code%20Base/badge.svg)
 [![license](https://img.shields.io/github/license/clong/DetectionLab.svg?style=flat-square)](https://github.com/clong/DetectionLab/blob/master/license.md)
-![Maintenance](https://img.shields.io/maintenance/no/2023.svg?style=flat-square)
-[![GitHub last commit](https://img.shields.io/github/last-commit/clong/DetectionLab.svg?style=flat-square)](https://github.com/clong/DetectionLab/commit/master)
-[![Twitter](https://img.shields.io/twitter/follow/DetectionLab.svg?style=social)](https://twitter.com/DetectionLab)
 
 ## Purpose
 This lab has been designed with defenders in mind. Its primary purpose is to allow the user to quickly build a Windows domain that comes pre-loaded with security tooling and some best practices when it comes to system logging configurations. It can easily be modified to fit most needs or expanded to include additional hosts.
@@ -97,8 +91,4 @@ A sizable percentage of this code was borrowed and adapted from [Stefan Scherer]
 * [BadBlood](https://github.com/davidprowe/BadBlood)
 * [PurpleSharp](https://github.com/mvelazc0/PurpleSharp)
 * [EVTX-ATTACK-SAMPLES](https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES)
-
-# DetectionLab Sponsors
-#### Last updated: 01/01/2023
-I would like to extend thanks to everyone who sponsored DetectionLab over the past few years. DetectionLab is no longer actively being maintained or developed.
 
