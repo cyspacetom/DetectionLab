@@ -25,6 +25,12 @@ variable "public_key_path" {
   default     = "/home/username/.ssh/id_logger.pub"
 }
 
+variable "public_key" {
+  description = "Public Key for access to Logger host - passed into Terraform through GitHub Secrets"
+  type        = string
+  default     = ""
+}
+
 variable "private_key_path" {
   description = "Path to the private key to use to authenticate to logger."
   type        = string
@@ -35,6 +41,18 @@ variable "ip_whitelist" {
   description = "A list of CIDRs that will be allowed to access the EC2 instances"
   type        = list(string)
   default     = [""]
+}
+
+variable "my_ip" {
+  description = "My own IP fetched from an environment variable, will be added to IP whitelist"
+  type        = string
+  default     = ""
+}
+
+variable "runner_ip" {
+  description = "The Github Runner IP, will be added to IP whitelist"
+  type        = string
+  default     = ""
 }
 
 variable "external_dns_servers" {
@@ -93,17 +111,17 @@ data "aws_ami" "win10_ami" {
 # the AMI IDs
 variable "logger_ami" {
   type    = string
-  default = ""
+  default = "ami-0f1bbc856e32ea598"
 }
 
 variable "dc_ami" {
   type    = string
-  default = ""
+  default = "ami-0b4e4f3e2212d8c23"
 }
 
 variable "wef_ami" {
   type    = string
-  default = ""
+  default = "ami-00d4e238e07aca8ac"
 }
 
 variable "exchange_ami" {
@@ -113,5 +131,5 @@ variable "exchange_ami" {
 
 variable "win10_ami" {
   type    = string
-  default = ""
+  default = "ami-0345e1c53383281bb"
 }
