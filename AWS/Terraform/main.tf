@@ -212,6 +212,15 @@ resource "aws_instance" "dc" {
     aws_vpc_dhcp_options_association.default
   ]
 
+  # Uses the local variable if external data source resolution fails
+  ami = coalesce(var.dc_ami, element(concat(data.aws_ami.dc_ami.*.image_id, [""]), 0))
+
+  tags = tomap({ "Name" = "${var.instance_name_prefix}dc.windomain.local" })
+
+  subnet_id              = aws_subnet.default.id
+  vpc_security_group_ids = [aws_security_group.windows.id]
+  private_ip             = "192.168.56.102"  
+
   provisioner "file" {
     source      = "${path.module}/scripts/bootstrap.ps1"
     destination = "C:\\Temp\\bootstrap.ps1"
@@ -234,15 +243,6 @@ resource "aws_instance" "dc" {
       host     = coalesce(self.public_ip, self.private_ip)
     }
   }
-
-  # Uses the local variable if external data source resolution fails
-  ami = coalesce(var.dc_ami, element(concat(data.aws_ami.dc_ami.*.image_id, [""]), 0))
-
-  tags = tomap({ "Name" = "${var.instance_name_prefix}dc.windomain.local" })
-
-  subnet_id              = aws_subnet.default.id
-  vpc_security_group_ids = [aws_security_group.windows.id]
-  private_ip             = "192.168.56.102"
 
   root_block_device {
     delete_on_termination = true
@@ -256,6 +256,15 @@ resource "aws_instance" "wef" {
     aws_vpc_dhcp_options_association.default
   ]
 
+  # Uses the local variable if external data source resolution fails
+  ami = coalesce(var.wef_ami, element(concat(data.aws_ami.wef_ami.*.image_id, [""]), 0))
+
+  tags = tomap({ "Name" = "${var.instance_name_prefix}wef.windomain.local" })
+
+  subnet_id              = aws_subnet.default.id
+  vpc_security_group_ids = [aws_security_group.windows.id]
+  private_ip             = "192.168.56.103"
+
   provisioner "file" {
     source      = "${path.module}/scripts/bootstrap.ps1"
     destination = "C:\\Temp\\bootstrap.ps1"
@@ -278,15 +287,6 @@ resource "aws_instance" "wef" {
       host     = coalesce(self.public_ip, self.private_ip)
     }
   }
-
-  # Uses the local variable if external data source resolution fails
-  ami = coalesce(var.wef_ami, element(concat(data.aws_ami.wef_ami.*.image_id, [""]), 0))
-
-  tags = tomap({ "Name" = "${var.instance_name_prefix}wef.windomain.local" })
-
-  subnet_id              = aws_subnet.default.id
-  vpc_security_group_ids = [aws_security_group.windows.id]
-  private_ip             = "192.168.56.103"
 
   root_block_device {
     delete_on_termination = true
@@ -300,6 +300,15 @@ resource "aws_instance" "win10" {
     aws_vpc_dhcp_options_association.default
   ]
 
+  # Uses the local variable if external data source resolution fails
+  ami = coalesce(var.win10_ami, element(concat(data.aws_ami.win10_ami.*.image_id, [""]), 0))
+
+  tags = tomap({ "Name" = "${var.instance_name_prefix}win10.windomain.local" })
+
+  subnet_id              = aws_subnet.default.id
+  vpc_security_group_ids = [aws_security_group.windows.id]
+  private_ip             = "192.168.56.104"
+
   provisioner "file" {
     source      = "${path.module}/scripts/bootstrap.ps1"
     destination = "C:\\Temp\\bootstrap.ps1"
@@ -322,15 +331,6 @@ resource "aws_instance" "win10" {
       host     = coalesce(self.public_ip, self.private_ip)
     }
   }
-
-  # Uses the local variable if external data source resolution fails
-  ami = coalesce(var.win10_ami, element(concat(data.aws_ami.win10_ami.*.image_id, [""]), 0))
-
-  tags = tomap({ "Name" = "${var.instance_name_prefix}win10.windomain.local" })
-
-  subnet_id              = aws_subnet.default.id
-  vpc_security_group_ids = [aws_security_group.windows.id]
-  private_ip             = "192.168.56.104"
 
   root_block_device {
     delete_on_termination = true
