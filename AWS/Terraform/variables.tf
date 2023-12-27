@@ -25,6 +25,12 @@ variable "public_key_path" {
   default     = "/home/username/.ssh/id_logger.pub"
 }
 
+variable "public_key" {
+  description = "Public Key for access to Logger host - passed into Terraform through GitHub Secrets"
+  type        = string
+  default     = ""
+}
+
 variable "private_key_path" {
   description = "Path to the private key to use to authenticate to logger."
   type        = string

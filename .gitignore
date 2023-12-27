@@ -7,7 +7,7 @@ Boxes/*
 **/.terraform/*
 *.tfstate
 *.tfstate.*
-*.tfvars
+#*.tfvars
 ESXi/Ansible/inventory.yml
 Azure/Ansible/inventory.yml
 inventory.yml.bak

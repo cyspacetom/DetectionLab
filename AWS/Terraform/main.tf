@@ -161,7 +161,7 @@ resource "aws_security_group" "windows" {
 
 resource "aws_key_pair" "auth" {
   key_name   = var.public_key_name
-  public_key = file(var.public_key_path)
+  public_key = coalesce(var.public_key, file(var.public_key_path)) 
 }
 
 resource "aws_instance" "logger" {
