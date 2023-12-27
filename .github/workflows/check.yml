@@ -51,7 +51,7 @@ jobs:
     # Creates a Terraform plan
     - name: Terraform Plan AWS
       working-directory: ./AWS
-      run: terraform plan -auto-approve
+      run: terraform plan
 
     - name: Checkov
       uses: bridgecrewio/checkov-action@v12
