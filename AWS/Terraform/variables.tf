@@ -110,7 +110,7 @@ variable "logger_ami" {
 
 variable "dc_ami" {
   type    = string
-  default = ""
+  default = "ami-0b4e4f3e2212d8c23"
 }
 
 variable "wef_ami" {
