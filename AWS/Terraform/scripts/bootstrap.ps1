@@ -45,15 +45,15 @@ Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Updating Velociraptor..."
 # First update the client config
 $vraptorClientConfigUrl = "https://raw.githubusercontent.com/MaximumPigs/DetectionLab/master/Vagrant/resources/velociraptor/Velociraptor.config.yaml"
 $vraptorClientConfigPath = "C:\Program Files\Velociraptor\client.config.yaml"
-Invoke-WebRequest -Uri "$vraptorClientConfigUrl" -OutFile $vraptorClientConfigPath
 # Now update the binary
 $vraptorInstallScriptDownloadUrl = "https://raw.githubusercontent.com/MaximumPigs/DetectionLab/master/Vagrant/scripts/install-velociraptor.ps1"
 $vraptorInstallScriptPath = 'C:\Users\vagrant\AppData\Local\Temp\install-velociraptor.ps1'
 If (-not (Test-Path $vraptorInstallScriptPath)) {
+  Invoke-WebRequest -Uri "$vraptorInstallScriptDownloadUrl" -OutFile $vraptorInstallScriptPath
   Set-Content -Path "C:\Users\vagrant\AppData\Local\Temp\install-velociraptor.ps1" -Value (get-content -Path "C:\Users\vagrant\AppData\Local\Temp\install-velociraptor.ps1" | Select-String -Pattern 'c:\\vagrant\\resources' -NotMatch)
   . $vraptorInstallScriptPath -update 1
-  Invoke-WebRequest -Uri "$vraptorInstallScriptDownloadUrl" -OutFile $vraptorInstallScriptPath
-  Restart-Service Velociraptor
 } Else {
   Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Velociraptor was already installed. Moving On."
 }
+Invoke-WebRequest -Uri "$vraptorClientConfigUrl" -OutFile $vraptorClientConfigPath
+Restart-Service Velociraptor
