@@ -480,7 +480,7 @@ install_velociraptor() {
   echo "[$(date +%H:%M:%S)]: Cleanup velociraptor package building leftovers..."
   rm -rf /opt/velociraptor/logs
   echo "[$(date +%H:%M:%S)]: Installing the dpkg..."
-  if dpkg -i velociraptor_*_server.deb >/dev/null; then
+  if dpkg -i velociraptor_server_*.deb >/dev/null; then
     echo "[$(date +%H:%M:%S)]: Installation complete!"
   else
     echo "[$(date +%H:%M:%S)]: Failed to install the dpkg"
