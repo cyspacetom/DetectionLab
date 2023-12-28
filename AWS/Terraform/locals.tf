@@ -5,5 +5,4 @@ locals {
   guacamole_url    = "http://${aws_instance.logger.public_ip}:8080/guacamole"
   velociraptor_url = "https://${aws_instance.logger.public_ip}:9999"
   ip_whitelist     = ["${var.my_ip}/32", "${var.runner_ip}/32"]
-
 }
