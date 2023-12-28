@@ -3,6 +3,7 @@ provider "aws" {
   default_tags {
     tags = tomap(var.custom-tags)
   }
+  region = var.region
 }
 
 data "aws_region" "current" {}

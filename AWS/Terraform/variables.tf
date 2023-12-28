@@ -4,6 +4,11 @@ variable "custom-tags" {
   default     = {}
 }
 
+variable "region" {
+  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs"
+  default     = ""
+}
+
 variable "instance_name_prefix" {
   description = "Optional string to prefix at the front of instance names in case you need to run multiple DetectionLab environments in the same AWS account"
   default     = ""

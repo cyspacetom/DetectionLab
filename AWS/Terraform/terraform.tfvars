@@ -1,4 +1,4 @@
-// region = "ap-southeast-2"
+region = "ap-southeast-2"
 public_key_name = "id_logger"
 // public_key_path   = ""
 // private_key_path  = ""
