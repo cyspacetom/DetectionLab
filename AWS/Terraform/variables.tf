@@ -40,7 +40,7 @@ variable "public_key" {
 variable "private_key_path" {
   description = "Path to the private key to use to authenticate to logger."
   type        = string
-  default     = "/home/username/.ssh/id_logger"
+  default     = "null"
 }
 
 /*
