@@ -476,9 +476,6 @@ install_velociraptor() {
   chmod +x velociraptor
   rm /opt/velociraptor/velociraptor_server_*.deb
   cp /vagrant/resources/velociraptor/server.config.yaml /opt/velociraptor
-  if [ ! -d "/vagrant" ]; then
-    wget -O /opt/velociraptor/server.config.yaml https://raw.githubusercontent.com/MaximumPigs/DetectionLab/master/Vagrant/resources/velociraptor/server.config.yaml --progress=bar:force
-  fi
   echo "[$(date +%H:%M:%S)]: Creating Velociraptor dpkg..."
   ./velociraptor --config /opt/velociraptor/server.config.yaml debian server
   echo "[$(date +%H:%M:%S)]: Cleanup velociraptor package building leftovers..."
