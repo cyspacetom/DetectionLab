@@ -28,7 +28,7 @@ variable "public_key_name" {
 variable "public_key_path" {
   description = "Path to the public key to be loaded into the logger authorized_keys file"
   type        = string
-  default     = "/null.pub"
+  default     = "null.pub"
 }
 
 variable "public_key" {
