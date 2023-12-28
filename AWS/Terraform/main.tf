@@ -3,6 +3,7 @@ provider "aws" {
   default_tags {
     tags = tomap(var.custom-tags)
   }
+  region = var.region
 }
 
 data "aws_region" "current" {}
@@ -55,7 +56,7 @@ resource "aws_security_group" "logger" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Splunk access
@@ -63,7 +64,7 @@ resource "aws_security_group" "logger" {
     from_port   = 8000
     to_port     = 8000
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Fleet access
@@ -71,7 +72,7 @@ resource "aws_security_group" "logger" {
     from_port   = 8412
     to_port     = 8412
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Guacamole access
@@ -79,13 +80,13 @@ resource "aws_security_group" "logger" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
   ingress {
     from_port   = 8443
     to_port     = 8443
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Velociraptor access
@@ -93,7 +94,7 @@ resource "aws_security_group" "logger" {
     from_port   = 9999
     to_port     = 9999
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Allow all traffic from the private subnet
@@ -123,7 +124,7 @@ resource "aws_security_group" "windows" {
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # WinRM
@@ -131,7 +132,7 @@ resource "aws_security_group" "windows" {
     from_port   = 5985
     to_port     = 5986
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Windows ATA
@@ -139,7 +140,7 @@ resource "aws_security_group" "windows" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Allow all traffic from the private subnet
@@ -161,7 +162,7 @@ resource "aws_security_group" "windows" {
 
 resource "aws_key_pair" "auth" {
   key_name   = var.public_key_name
-  public_key = coalesce(var.public_key, file(var.public_key_path)) 
+  public_key = coalesce(var.public_key, file(var.public_key_path))
 }
 
 resource "aws_instance" "logger" {
@@ -178,10 +179,10 @@ resource "aws_instance" "logger" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -qq update",
-      "sudo git clone https://github.com/clong/DetectionLab.git /opt/DetectionLab",
+      "sudo git clone https://github.com/MaximumPigs/DetectionLab.git /opt/DetectionLab",
       "sudo chmod +x /opt/DetectionLab/Vagrant/logger_bootstrap.sh",
       "sudo sed -i 's#/vagrant/resources#/opt/DetectionLab/Vagrant/resources#g' /opt/DetectionLab/Vagrant/logger_bootstrap.sh",
-      "sudo yq eval -i 'del(.af-packet[1])' /etc/suricata/suricata.yaml", 
+      "sudo yq eval -i 'del(.af-packet[1])' /etc/suricata/suricata.yaml",
       "sudo sed -i '1s/^/\\%YAML 1.1\\n---\\n/g' /etc/suricata/suricata.yaml",
       "sudo cp /opt/DetectionLab/Vagrant/resources/fleet/fleet.service /etc/systemd/system/fleet.service && sudo systemctl daemon-reload && sudo service fleet restart",
       "sudo service suricata restart",
@@ -219,7 +220,7 @@ resource "aws_instance" "dc" {
 
   subnet_id              = aws_subnet.default.id
   vpc_security_group_ids = [aws_security_group.windows.id]
-  private_ip             = "192.168.56.102"  
+  private_ip             = "192.168.56.102"
 
   provisioner "file" {
     source      = "${path.module}/scripts/bootstrap.ps1"

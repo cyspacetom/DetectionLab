@@ -6,6 +6,6 @@ variable "hostonly_network" {
   default = "HostOnly Network"
 }
 
-variable "disk_store" { 
+variable "disk_store" {
   type = string
 }

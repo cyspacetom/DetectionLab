@@ -12,7 +12,7 @@ jobs:
     env: 
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-      TF_VAR_public_key: ${{ secrets.public_key }}      
+      TF_VAR_public_key: ${{ secrets.PUBLIC_KEY }}      
       TF_VAR_my_ip: ${{ secrets.MY_IP }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -39,14 +39,15 @@ jobs:
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
+      working-directory: ./AWS/Terraform
       run: terraform fmt -check -recursive
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init AWS
-      working-directory: ./AWS
+      working-directory: ./AWS/Terraform
       run: terraform init -backend-config="backend.hcl"
 
     # Destroys all infra
     - name: Terraform Destroy AWS
-      working-directory: ./AWS
+      working-directory: ./AWS/Terraform
       run: terraform destroy -auto-approve

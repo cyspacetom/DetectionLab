@@ -25,19 +25,19 @@ resource "esxi_guest" "logger" {
   numvcpus           = "2"
   resource_pool_name = "/"
   power              = "on"
-  clone_from_vm = "Ubuntu2004"
+  clone_from_vm      = "Ubuntu2004"
 
-    provisioner "remote-exec" {
+  provisioner "remote-exec" {
     inline = [
       "sudo ifconfig eth0 up && echo 'eth0 up' || echo 'unable to bring eth0 interface up",
       "sudo ifconfig eth1 up && echo 'eth1 up' || echo 'unable to bring eth1 interface up"
     ]
 
     connection {
-      host        = self.ip_address
-      type        = "ssh"
-      user        = "vagrant"
-      password    = "vagrant"
+      host     = self.ip_address
+      type     = "ssh"
+      user     = "vagrant"
+      password = "vagrant"
     }
   }
   # This is the network that bridges your host machine with the ESXi VM
@@ -76,7 +76,7 @@ resource "esxi_guest" "dc" {
   numvcpus           = "2"
   resource_pool_name = "/"
   power              = "on"
-  clone_from_vm = "WindowsServer2016"
+  clone_from_vm      = "WindowsServer2016"
   # This is the network that bridges your host machine with the ESXi VM
   network_interfaces {
     virtual_network = var.vm_network
@@ -104,7 +104,7 @@ resource "esxi_guest" "wef" {
   numvcpus           = "2"
   resource_pool_name = "/"
   power              = "on"
-  clone_from_vm = "WindowsServer2016"
+  clone_from_vm      = "WindowsServer2016"
   # This is the network that bridges your host machine with the ESXi VM
   network_interfaces {
     virtual_network = var.vm_network
@@ -132,7 +132,7 @@ resource "esxi_guest" "win10" {
   numvcpus           = "2"
   resource_pool_name = "/"
   power              = "on"
-  clone_from_vm = "Windows10"
+  clone_from_vm      = "Windows10"
   # This is the network that bridges your host machine with the ESXi VM
   network_interfaces {
     virtual_network = var.vm_network

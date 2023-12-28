@@ -17,18 +17,18 @@ provider "azurerm" {
 
 # https://github.com/terraform-providers/terraform-provider-azurerm/blob/1940d84dba45e41b2f1f868a22d7f7af1adea8a0/examples/virtual-machines/virtual_machine/vm-joined-to-active-directory/modules/active-directory/2-virtual-machine.tf
 locals {
-    custom_data_content  = file("${path.module}/files/winrm.ps1")
+  custom_data_content = file("${path.module}/files/winrm.ps1")
 }
 
 resource "azurerm_resource_group" "detectionlab" {
-  name = "DetectionLab-terraform"
+  name     = "DetectionLab-terraform"
   location = var.region
 }
 
 resource "azurerm_virtual_network" "detectionlab-network" {
-  name = "DetectionLab-vnet"
-  address_space = ["192.168.0.0/16"]
-  location = var.region
+  name                = "DetectionLab-vnet"
+  address_space       = ["192.168.0.0/16"]
+  location            = var.region
   resource_group_name = azurerm_resource_group.detectionlab.name
 }
 
@@ -37,23 +37,23 @@ resource "azurerm_subnet" "detectionlab-subnet" {
   name                 = "DetectionLab-Subnet"
   resource_group_name  = azurerm_resource_group.detectionlab.name
   virtual_network_name = azurerm_virtual_network.detectionlab-network.name
-  address_prefixes       = ["192.168.56.0/24"]
+  address_prefixes     = ["192.168.56.0/24"]
 }
 
 resource "azurerm_network_security_group" "detectionlab-nsg" {
   name                = "DetectionLab-nsg"
-  location = var.region
-  resource_group_name  = azurerm_resource_group.detectionlab.name
+  location            = var.region
+  resource_group_name = azurerm_resource_group.detectionlab.name
 
   # SSH access
   security_rule {
-    name                       = "SSH"
-    priority                   = 1001
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
+    name                   = "SSH"
+    priority               = 1001
+    direction              = "Inbound"
+    access                 = "Allow"
+    protocol               = "Tcp"
+    source_port_range      = "*"
+    destination_port_range = "22"
     # source_address_prefix      = "*"
     source_address_prefixes    = var.ip_whitelist
     destination_address_prefix = "*"
@@ -198,25 +198,25 @@ resource "azurerm_network_interface" "logger-nic" {
 resource "random_id" "randomId" {
   keepers = {
     # Generate a new ID only when a new resource group is defined
-    resource_group_name  = azurerm_resource_group.detectionlab.name
+    resource_group_name = azurerm_resource_group.detectionlab.name
   }
   byte_length = 8
 }
 
 resource "azurerm_storage_account" "detectionlab-storageaccount" {
-  name                = "diag${random_id.randomId.hex}"
-  location = var.region
-  resource_group_name  = azurerm_resource_group.detectionlab.name
+  name                     = "diag${random_id.randomId.hex}"
+  location                 = var.region
+  resource_group_name      = azurerm_resource_group.detectionlab.name
   account_replication_type = "LRS"
-  account_tier = "Standard"
-  min_tls_version = "TLS1_2"
+  account_tier             = "Standard"
+  min_tls_version          = "TLS1_2"
 }
 
 # Linux VM
 resource "azurerm_virtual_machine" "logger" {
-  name = "logger"
-  location = var.region
-  resource_group_name  = azurerm_resource_group.detectionlab.name
+  name                  = "logger"
+  location              = var.region
+  resource_group_name   = azurerm_resource_group.detectionlab.name
   network_interface_ids = [azurerm_network_interface.logger-nic.id]
   vm_size               = "Standard_DS1_v2"
 
@@ -260,8 +260,8 @@ resource "azurerm_virtual_machine" "logger" {
   # https://www.terraform.io/docs/provisioners/connection.html
   provisioner "remote-exec" {
     connection {
-      host = azurerm_public_ip.logger-publicip.ip_address
-      user     = "vagrant"
+      host        = azurerm_public_ip.logger-publicip.ip_address
+      user        = "vagrant"
       private_key = file(var.private_key_path)
     }
     inline = [
@@ -314,9 +314,9 @@ PROTECTED_SETTINGS
 
 # Windows VM
 resource "azurerm_network_interface" "dc-nic" {
-  name = "dc-nic"
-  location = var.region
-  resource_group_name  = azurerm_resource_group.detectionlab.name
+  name                = "dc-nic"
+  location            = var.region
+  resource_group_name = azurerm_resource_group.detectionlab.name
 
   ip_configuration {
     name                          = "DC-NicConfiguration"
@@ -339,9 +339,9 @@ resource "azurerm_public_ip" "dc-publicip" {
 }
 
 resource "azurerm_network_interface" "wef-nic" {
-  name = "wef-nic"
-  location = var.region
-  resource_group_name  = azurerm_resource_group.detectionlab.name
+  name                = "wef-nic"
+  location            = var.region
+  resource_group_name = azurerm_resource_group.detectionlab.name
 
   ip_configuration {
     name                          = "WEF-NicConfiguration"
@@ -364,9 +364,9 @@ resource "azurerm_public_ip" "wef-publicip" {
 }
 
 resource "azurerm_network_interface" "win10-nic" {
-  name = "win10-nic"
-  location = var.region
-  resource_group_name  = azurerm_resource_group.detectionlab.name
+  name                = "win10-nic"
+  location            = var.region
+  resource_group_name = azurerm_resource_group.detectionlab.name
 
   ip_configuration {
     name                          = "myNicConfiguration"
@@ -389,8 +389,8 @@ resource "azurerm_public_ip" "win10-publicip" {
 }
 
 resource "azurerm_virtual_machine" "dc" {
-  name = "dc.windomain.local"
-  location = var.region
+  name                  = "dc.windomain.local"
+  location              = var.region
   resource_group_name   = azurerm_resource_group.detectionlab.name
   network_interface_ids = [azurerm_network_interface.dc-nic.id]
   vm_size               = "Standard_D1_v2"
@@ -467,9 +467,9 @@ PROTECTED_SETTINGS
 */
 
 resource "azurerm_virtual_machine" "wef" {
-  name = "wef.windomain.local"
-  location = var.region
-  resource_group_name  = azurerm_resource_group.detectionlab.name
+  name                  = "wef.windomain.local"
+  location              = var.region
+  resource_group_name   = azurerm_resource_group.detectionlab.name
   network_interface_ids = [azurerm_network_interface.wef-nic.id]
   vm_size               = "Standard_D1_v2"
 
@@ -547,9 +547,9 @@ PROTECTED_SETTINGS
 */
 
 resource "azurerm_virtual_machine" "win10" {
-  name = "win10.windomain.local"
-  location = var.region
-  resource_group_name  = azurerm_resource_group.detectionlab.name
+  name                  = "win10.windomain.local"
+  location              = var.region
+  resource_group_name   = azurerm_resource_group.detectionlab.name
   network_interface_ids = [azurerm_network_interface.win10-nic.id]
   vm_size               = "Standard_D1_v2"
 
@@ -605,14 +605,14 @@ resource "azurerm_virtual_machine" "win10" {
 
 # Creation of the Ansible Inventory
 resource "local_file" "inventory" {
-    content = templatefile("../Ansible/inventory.tmpl",
-      {
-        dc_public_ip = azurerm_public_ip.dc-publicip.ip_address
-        wef_public_ip = azurerm_public_ip.wef-publicip.ip_address
-        win10_public_ip = azurerm_public_ip.win10-publicip.ip_address
-      }
-    )
-    filename = "../Ansible/inventory.yml"
+  content = templatefile("../Ansible/inventory.tmpl",
+    {
+      dc_public_ip    = azurerm_public_ip.dc-publicip.ip_address
+      wef_public_ip   = azurerm_public_ip.wef-publicip.ip_address
+      win10_public_ip = azurerm_public_ip.win10-publicip.ip_address
+    }
+  )
+  filename = "../Ansible/inventory.yml"
 }
 
 # Uncomment the following lines if you want to use Azure Log Analytics and Azure Sentinel
