@@ -55,7 +55,7 @@ resource "aws_security_group" "logger" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Splunk access
@@ -63,7 +63,7 @@ resource "aws_security_group" "logger" {
     from_port   = 8000
     to_port     = 8000
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Fleet access
@@ -71,7 +71,7 @@ resource "aws_security_group" "logger" {
     from_port   = 8412
     to_port     = 8412
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Guacamole access
@@ -79,13 +79,13 @@ resource "aws_security_group" "logger" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
   ingress {
     from_port   = 8443
     to_port     = 8443
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Velociraptor access
@@ -93,7 +93,7 @@ resource "aws_security_group" "logger" {
     from_port   = 9999
     to_port     = 9999
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Allow all traffic from the private subnet
@@ -123,7 +123,7 @@ resource "aws_security_group" "windows" {
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # WinRM
@@ -131,7 +131,7 @@ resource "aws_security_group" "windows" {
     from_port   = 5985
     to_port     = 5986
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Windows ATA
@@ -139,7 +139,7 @@ resource "aws_security_group" "windows" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = var.ip_whitelist
+    cidr_blocks = local.ip_whitelist
   }
 
   # Allow all traffic from the private subnet

@@ -19,10 +19,11 @@ variable "public_key_name" {
   default     = "id_logger"
 }
 
+# If you are passing in a public key as a string through the public_key variable - leave this, and the null file as is.
 variable "public_key_path" {
   description = "Path to the public key to be loaded into the logger authorized_keys file"
   type        = string
-  default     = "/home/username/.ssh/id_logger.pub"
+  default     = "/null.pub"
 }
 
 variable "public_key" {
@@ -37,20 +38,22 @@ variable "private_key_path" {
   default     = "/home/username/.ssh/id_logger"
 }
 
+/*
 variable "ip_whitelist" {
   description = "A list of CIDRs that will be allowed to access the EC2 instances"
   type        = list(string)
   default     = [""]
 }
+*/
 
 variable "my_ip" {
-  description = "My own IP fetched from an environment variable, will be added to IP whitelist"
+  description = "My own public IP fetched from an environment variable, will be added to IP whitelist - Must be formatted in CIDR notation. eg 192.168.0.10/32"
   type        = string
   default     = ""
 }
 
 variable "runner_ip" {
-  description = "The Github Runner IP, will be added to IP whitelist"
+  description = "The Github Runner IP, will be added to IP whitelist - Must be formatted in CIDR notation. eg 192.168.0.10/32"
   type        = string
   default     = ""
 }
