@@ -178,7 +178,7 @@ resource "aws_instance" "logger" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -qq update",
-      "sudo git clone https://github.com/clong/DetectionLab.git /opt/DetectionLab",
+      "sudo git clone https://github.com/MaximumPigs/DetectionLab.git /opt/DetectionLab",
       "sudo chmod +x /opt/DetectionLab/Vagrant/logger_bootstrap.sh",
       "sudo sed -i 's#/vagrant/resources#/opt/DetectionLab/Vagrant/resources#g' /opt/DetectionLab/Vagrant/logger_bootstrap.sh",
       "sudo yq eval -i 'del(.af-packet[1])' /etc/suricata/suricata.yaml",

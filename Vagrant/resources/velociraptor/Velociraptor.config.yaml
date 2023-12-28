@@ -1,39 +1,43 @@
 version:
   name: velociraptor
-  version: 0.6.4-2
-  commit: b6c5764a
-  build_time: "2022-05-08T23:09:48+10:00"
-  compiler: go1.18.1
+  version: 0.7.1
+  commit: "0746831"
+  build_time: "2023-12-13T10:45:43Z"
+  install_time: 1703723236
+  ci_build_url: https://github.com/Velocidex/velociraptor/actions/runs/7194076107
+  compiler: go1.21.4
 Client:
   server_urls:
   - https://logger:9000/
   ca_certificate: |
     -----BEGIN CERTIFICATE-----
-    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
+    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
     -----END CERTIFICATE-----
-  nonce: AFCq1g+FaG4=
+  nonce: SNxvwYd+UBM=
   writeback_darwin: /etc/velociraptor.writeback.yaml
   writeback_linux: /etc/velociraptor.writeback.yaml
   writeback_windows: $ProgramFiles\Velociraptor\velociraptor.writeback.yaml
+  level2_writeback_suffix: .bak
   tempdir_windows: $ProgramFiles\Velociraptor\Tools
   max_poll: 60
+  nanny_max_connection_delay: 600
   windows_installer:
     service_name: Velociraptor
     install_path: $ProgramFiles\Velociraptor\Velociraptor.exe
@@ -43,10 +47,12 @@ Client:
     install_path: /usr/local/sbin/velociraptor
   version:
     name: velociraptor
-    version: 0.6.4-2
-    commit: b6c5764a
-    build_time: "2022-05-08T23:09:48+10:00"
-    compiler: go1.18.1
+    version: 0.7.1
+    commit: "0746831"
+    build_time: "2023-12-13T10:45:43Z"
+    install_time: 1703723236
+    ci_build_url: https://github.com/Velocidex/velociraptor/actions/runs/7194076107
+    compiler: go1.21.4
   use_self_signed_ssl: true
   pinned_server_name: VelociraptorServer
   max_upload_size: 5242880

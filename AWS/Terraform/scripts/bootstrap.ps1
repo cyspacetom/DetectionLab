@@ -43,11 +43,11 @@ $ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Updating Velociraptor..."
 # First update the client config
-$vraptorClientConfigUrl = "https://raw.githubusercontent.com/clong/DetectionLab/master/Vagrant/resources/velociraptor/Velociraptor.config.yaml"
+$vraptorClientConfigUrl = "https://raw.githubusercontent.com/MaximumPigs/DetectionLab/master/Vagrant/resources/velociraptor/Velociraptor.config.yaml"
 $vraptorClientConfigPath = "C:\Program Files\Velociraptor\Velociraptor.config.yaml"
 Invoke-WebRequest -Uri "$vraptorClientConfigUrl" -OutFile $vraptorClientConfigPath
 # Now update the binary
-$vraptorInstallScriptDownloadUrl = "https://raw.githubusercontent.com/clong/DetectionLab/master/Vagrant/scripts/install-velociraptor.ps1"
+$vraptorInstallScriptDownloadUrl = "https://raw.githubusercontent.com/MaximumPigs/DetectionLab/master/Vagrant/scripts/install-velociraptor.ps1"
 $vraptorInstallScriptPath = 'C:\Users\vagrant\AppData\Local\Temp\install-velociraptor.ps1'
 If (-not (Test-Path $vraptorInstallScriptPath)) {
   Invoke-WebRequest -Uri "$vraptorInstallScriptDownloadUrl" -OutFile $vraptorInstallScriptPath
