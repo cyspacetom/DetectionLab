@@ -44,7 +44,7 @@ $ProgressPreference = 'SilentlyContinue'
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Updating Velociraptor..."
 # First update the client config
 $vraptorClientConfigUrl = "https://raw.githubusercontent.com/MaximumPigs/DetectionLab/master/Vagrant/resources/velociraptor/Velociraptor.config.yaml"
-$vraptorClientConfigPath = "C:\Program Files\Velociraptor\Velociraptor.config.yaml"
+$vraptorClientConfigPath = "C:\Program Files\Velociraptor\client.config.yaml"
 Invoke-WebRequest -Uri "$vraptorClientConfigUrl" -OutFile $vraptorClientConfigPath
 # Now update the binary
 $vraptorInstallScriptDownloadUrl = "https://raw.githubusercontent.com/MaximumPigs/DetectionLab/master/Vagrant/scripts/install-velociraptor.ps1"
