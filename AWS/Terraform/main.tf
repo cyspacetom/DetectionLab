@@ -166,7 +166,7 @@ resource "aws_key_pair" "auth" {
 }
 
 resource "aws_instance" "logger" {
-  count = var.build_logger ? 1 : 0
+  count         = var.build_logger ? 1 : 0
   instance_type = "t3.medium"
   ami           = coalesce(var.logger_ami, element(concat(data.aws_ami.logger_ami.*.image_id, [""]), 0))
 
@@ -208,7 +208,7 @@ resource "aws_instance" "logger" {
 }
 
 resource "aws_instance" "dc" {
-  count = var.build_dc ? 1 : 0
+  count         = var.build_dc ? 1 : 0
   instance_type = "t3.medium"
   depends_on = [
     aws_vpc_dhcp_options.default,
@@ -253,7 +253,7 @@ resource "aws_instance" "dc" {
 }
 
 resource "aws_instance" "wef" {
-  count = var.build_wef ? 1 : 0
+  count         = var.build_wef ? 1 : 0
   instance_type = "t3.medium"
   depends_on = [
     aws_vpc_dhcp_options.default,
@@ -298,7 +298,7 @@ resource "aws_instance" "wef" {
 }
 
 resource "aws_instance" "win10" {
-  count = var.build_win10 ? 1 : 0
+  count         = var.build_win10 ? 1 : 0
   instance_type = "t2.large"
   depends_on = [
     aws_vpc_dhcp_options.default,
