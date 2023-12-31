@@ -37,5 +37,17 @@ jobs:
 
     # Gets Terraform state and generates cost using cost.modules.tf
     - name: Terraform Get Cost AWS
+      id: cost
       working-directory: ./AWS/Terraform
-      run: 'terraform state pull |  curl -s -X POST -H "Content-Type: application/json" -d @- https://cost.modules.tf/ >> $GITHUB_STEP_SUMMARY'
+      run: |
+       'terraform state pull |  curl -s -X POST -H "Content-Type: application/json" -d @- https://cost.modules.tf/ >> $JSON_COST'
+       echo "json_cost=$JSON_COST" >> $GITHUB_OUTPUT
+
+    - name: Convert JSON to Markdown
+      uses: buildingcash/json-to-markdown-table-action@v1
+      id: table
+      with:
+        json: ${{ steps.cost.outputs.json_cost }}
+    
+    - name: Send table to output
+      run: echo ${{ steps.table.outputs.table }} >> $GITHUB_STEP_SUMMARY"
