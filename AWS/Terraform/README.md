@@ -15,7 +15,7 @@ terraform state pull |  curl -s -X POST -H "Content-Type: application/json" -d @
 
 Fork this Repo.
 
-Request sharing of AMIs from the owner of this Repo.
+Request sharing of AMIs from the owner of this Repo. (No longer required, AMIs are public)
 
 Create a new S3 bucket in AWS, this will store all of your Terraform State files for any of my projects so name it something meaningful.
 
@@ -33,8 +33,11 @@ In your own Fork, set the following GitHub Repository Secrets. (Exact secret nam
 - PUBLIC_KEY
   - Paste the public key you generated previously in here.
   - eg. "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCEgBTd26TVUWf+i+kQc .... someone@email.com"
+  - Not currently working, just make sure there is something in this secret.
 
   Within the code itself, change the following items:
   /AWS/Terraform/backend.hcl
    - Change the bucket name to the one you created earlier
+
+Open your GitHub repo, 
 

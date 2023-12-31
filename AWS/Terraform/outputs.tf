@@ -3,23 +3,23 @@ output "region" {
 }
 
 output "logger_public_ip" {
-  value = aws_instance.logger.public_ip
+  value = aws_instance.logger[0].public_ip
 }
 
 output "logger_ssh_access" {
-  value = "ssh vagrant@${aws_instance.logger.public_ip} (password=vagrant)"
+  value = "ssh vagrant@${aws_instance.logger[0].public_ip} (password=vagrant)"
 }
 
 output "dc_public_ip" {
-  value = aws_instance.dc.public_ip
+  value = aws_instance.dc[0].public_ip
 }
 
 output "wef_public_ip" {
-  value = aws_instance.wef.public_ip
+  value = aws_instance.wef[0].public_ip
 }
 
 output "win10_public_ip" {
-  value = aws_instance.win10.public_ip
+  value = aws_instance.win10[0].public_ip
 }
 
 output "fleet_url" {

@@ -83,7 +83,7 @@ data "aws_ami" "logger_ami" {
 
   filter {
     name   = "name"
-    values = ["detectionlab-logger"]
+    values = ["Maximumpigs/Linux/DetectionLab_Logger"]
   }
 }
 
@@ -94,7 +94,7 @@ data "aws_ami" "dc_ami" {
 
   filter {
     name   = "name"
-    values = ["detectionlab-dc"]
+    values = ["Maximumpigs/Windows/DetectionLab_DC"]
   }
 }
 
@@ -106,7 +106,7 @@ data "aws_ami" "wef_ami" {
 
   filter {
     name   = "name"
-    values = ["detectionlab-wef"]
+    values = ["Maximumpigs/Windows/DetectionLab_WEF"]
   }
 }
 
@@ -118,7 +118,7 @@ data "aws_ami" "win10_ami" {
 
   filter {
     name   = "name"
-    values = ["detectionlab-win10"]
+    values = ["Maximumpigs/Windows/DetectionLab_Win10"]
   }
 }
 
