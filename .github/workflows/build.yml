@@ -64,7 +64,7 @@ jobs:
       working-directory: ./AWS/Terraform
       run: |
         echo "--------OUTPUTS---------" >> $GITHUB_STEP_SUMMARY
-        terraform output >> $GITHUB_STEP_SUMMARY'
+        terraform output >> $GITHUB_STEP_SUMMARY
 
     # Removes Runner access
     - name: Terraform Remove runner access AWS
