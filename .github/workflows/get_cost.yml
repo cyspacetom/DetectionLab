@@ -40,8 +40,9 @@ jobs:
       id: cost
       working-directory: ./AWS/Terraform
       run: |
-       'terraform state pull |  curl -s -X POST -H "Content-Type: application/json" -d @- https://cost.modules.tf/ >> $JSON_COST'
-       echo "json_cost=$JSON_COST" >> $GITHUB_OUTPUT
+       state=$(terraform state pull)
+       json=$(curl -s -X POST -H "Content-Type: application/json" -d $state https://cost.modules.tf/)
+       echo "json_cost=$json" >> $GITHUB_OUTPUT
 
     - name: Convert JSON to Markdown
       uses: buildingcash/json-to-markdown-table-action@v1
