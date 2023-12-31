@@ -72,7 +72,7 @@ variable "external_dns_servers" {
 # Use Data Sources to resolve the AMI-ID for the Ubuntu 20.04 AMI
 data "aws_ami" "logger_ami" {
   count  = var.logger_ami == "" ? 1 : 0
-  owners = ["635547317643"]
+  owners = ["505638924199"]
 
   filter {
     name   = "name"
@@ -83,7 +83,7 @@ data "aws_ami" "logger_ami" {
 # Use Data Sources to resolve the AMI-ID for the pre-built DC host
 data "aws_ami" "dc_ami" {
   count  = var.dc_ami == "" ? 1 : 0
-  owners = ["635547317643"]
+  owners = ["505638924199"]
 
   filter {
     name   = "name"
@@ -94,7 +94,7 @@ data "aws_ami" "dc_ami" {
 # Use Data Sources to resolve the AMI-ID for the pre-built WEF host
 data "aws_ami" "wef_ami" {
   count       = var.wef_ami == "" ? 1 : 0
-  owners      = ["635547317643"]
+  owners      = ["505638924199"]
   most_recent = true
 
   filter {
@@ -106,7 +106,7 @@ data "aws_ami" "wef_ami" {
 # Use Data Sources to resolve the AMI-ID for the pre-built Win10 host
 data "aws_ami" "win10_ami" {
   count       = var.win10_ami == "" ? 1 : 0
-  owners      = ["635547317643"]
+  owners      = ["505638924199"]
   most_recent = true
 
   filter {
@@ -119,17 +119,17 @@ data "aws_ami" "win10_ami" {
 # the AMI IDs
 variable "logger_ami" {
   type    = string
-  default = ""
+  default = "ami-0314043c864de778f" #AWS Ubuntu 20.04
 }
 
 variable "dc_ami" {
   type    = string
-  default = ""
+  default = "ami-0b4e4f3e2212d8c23"
 }
 
 variable "wef_ami" {
   type    = string
-  default = ""
+  default = "ami-00d4e238e07aca8ac"
 }
 
 variable "exchange_ami" {
@@ -139,5 +139,5 @@ variable "exchange_ami" {
 
 variable "win10_ami" {
   type    = string
-  default = ""
+  default = "ami-0353745092b12b4c1"
 }

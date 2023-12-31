@@ -1,0 +1,9 @@
+[
+  {
+    "Description": "win10_dl_base",
+    "Format": "ova",
+    "UserBucket": {
+        "S3Bucket": "detectionlab-ova-maximumpigs",
+        "S3Key": "win10_dl_base.ova"
+    }
+}]
