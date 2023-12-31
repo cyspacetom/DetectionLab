@@ -24,32 +24,13 @@ variable "public_key_name" {
   default     = "id_logger"
 }
 
-# If you are passing in a public key as a string through the public_key variable - leave this, and the null file as is.
-variable "public_key_path" {
-  description = "Path to the public key to be loaded into the logger authorized_keys file"
-  type        = string
-  default     = "null.pub"
-}
+# Public key string, generated locally. For access to Logger.
 
 variable "public_key" {
   description = "Public Key for access to Logger host - passed into Terraform through GitHub Secrets"
   type        = string
   default     = ""
 }
-
-variable "private_key_path" {
-  description = "Path to the private key to use to authenticate to logger."
-  type        = string
-  default     = "null"
-}
-
-/*
-variable "ip_whitelist" {
-  description = "A list of CIDRs that will be allowed to access the EC2 instances"
-  type        = list(string)
-  default     = [""]
-}
-*/
 
 variable "my_ip" {
   description = "My own public IP fetched from an environment variable, will be added to IP whitelist - Must be formatted in CIDR notation. eg 192.168.0.10/32"
@@ -67,6 +48,32 @@ variable "external_dns_servers" {
   description = "Configure lab to allow external DNS resolution"
   type        = list(string)
   default     = ["8.8.8.8"]
+}
+
+# Build flags - For troubleshooting, allows to build one instance at a time
+
+variable "build_dc" {
+  description = "Flag to build DC instance"
+  type        = bool
+  default     = true
+}
+
+variable "build_wef" {
+  description = "Flag to build WEF instance"
+  type        = bool
+  default     = true
+}
+
+variable "build_win10" {
+  description = "Flag to build WIN10 instance"
+  type        = bool
+  default     = true
+}
+
+variable "build_logger" {
+  description = "Flag to build Logger instance"
+  type        = bool
+  default     = true
 }
 
 # Use Data Sources to resolve the AMI-ID for the Ubuntu 20.04 AMI
