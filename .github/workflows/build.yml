@@ -52,6 +52,20 @@ jobs:
       working-directory: ./AWS/Terraform
       run: terraform apply -auto-approve
 
+    # Gets Terraform state and generates cost using cost.modules.tf
+    - name: Terraform Get Cost AWS
+      working-directory: ./AWS/Terraform
+      run: |
+        echo "--------COST---------" >> $GITHUB_STEP_SUMMARY
+        'terraform state pull |  curl -s -X POST -H "Content-Type: application/json" -d @- https://cost.modules.tf/ >> $GITHUB_STEP_SUMMARY'
+
+    # Gets Terraform state and generates cost using cost.modules.tf
+    - name: Terraform Display outputs in summary
+      working-directory: ./AWS/Terraform
+      run: |
+        echo "--------OUTPUTS---------" >> $GITHUB_STEP_SUMMARY
+        terraform output >> $GITHUB_STEP_SUMMARY'
+
     # Removes Runner access
     - name: Terraform Remove runner access AWS
       working-directory: ./AWS/Terraform
