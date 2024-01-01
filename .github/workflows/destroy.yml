@@ -41,15 +41,15 @@ jobs:
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
-      working-directory: ./AWS/Terraform
+      working-directory: ./AWS/Terraform_Ansible
       run: terraform fmt -check -recursive
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init AWS
-      working-directory: ./AWS/Terraform
+      working-directory: ./AWS/Terraform_Ansible
       run: terraform init -backend-config="backend.hcl"
 
     # Destroys all infra
     - name: Terraform Destroy AWS
-      working-directory: ./AWS/Terraform
+      working-directory: ./AWS/Terraform_Ansible
       run: terraform destroy -auto-approve
