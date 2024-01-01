@@ -24,32 +24,13 @@ variable "public_key_name" {
   default     = "id_logger"
 }
 
-# If you are passing in a public key as a string through the public_key variable - leave this, and the null file as is.
-variable "public_key_path" {
-  description = "Path to the public key to be loaded into the logger authorized_keys file"
-  type        = string
-  default     = "null.pub"
-}
+# Public key string, generated locally. For access to Logger.
 
 variable "public_key" {
   description = "Public Key for access to Logger host - passed into Terraform through GitHub Secrets"
   type        = string
   default     = ""
 }
-
-variable "private_key_path" {
-  description = "Path to the private key to use to authenticate to logger."
-  type        = string
-  default     = "null"
-}
-
-/*
-variable "ip_whitelist" {
-  description = "A list of CIDRs that will be allowed to access the EC2 instances"
-  type        = list(string)
-  default     = [""]
-}
-*/
 
 variable "my_ip" {
   description = "My own public IP fetched from an environment variable, will be added to IP whitelist - Must be formatted in CIDR notation. eg 192.168.0.10/32"
@@ -69,49 +50,75 @@ variable "external_dns_servers" {
   default     = ["8.8.8.8"]
 }
 
+# Build flags - For troubleshooting, allows to build one instance at a time
+
+variable "build_dc" {
+  description = "Flag to build DC instance"
+  type        = bool
+  default     = false
+}
+
+variable "build_wef" {
+  description = "Flag to build WEF instance"
+  type        = bool
+  default     = false
+}
+
+variable "build_win10" {
+  description = "Flag to build WIN10 instance"
+  type        = bool
+  default     = false
+}
+
+variable "build_logger" {
+  description = "Flag to build Logger instance"
+  type        = bool
+  default     = true
+}
+
 # Use Data Sources to resolve the AMI-ID for the Ubuntu 20.04 AMI
 data "aws_ami" "logger_ami" {
   count  = var.logger_ami == "" ? 1 : 0
-  owners = ["505638924199"]
+  owners = ["635547317643"]
 
   filter {
     name   = "name"
-    values = ["detectionlab-logger"]
+    values = ["Maximumpigs/Linux/DetectionLab_Logger"]
   }
 }
 
 # Use Data Sources to resolve the AMI-ID for the pre-built DC host
 data "aws_ami" "dc_ami" {
   count  = var.dc_ami == "" ? 1 : 0
-  owners = ["505638924199"]
+  owners = ["635547317643"]
 
   filter {
     name   = "name"
-    values = ["detectionlab-dc"]
+    values = ["Maximumpigs/Windows/DetectionLab_DC"]
   }
 }
 
 # Use Data Sources to resolve the AMI-ID for the pre-built WEF host
 data "aws_ami" "wef_ami" {
   count       = var.wef_ami == "" ? 1 : 0
-  owners      = ["505638924199"]
+  owners      = ["635547317643"]
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["detectionlab-wef"]
+    values = ["Maximumpigs/Windows/DetectionLab_WEF"]
   }
 }
 
 # Use Data Sources to resolve the AMI-ID for the pre-built Win10 host
 data "aws_ami" "win10_ami" {
   count       = var.win10_ami == "" ? 1 : 0
-  owners      = ["505638924199"]
+  owners      = ["635547317643"]
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["detectionlab-win10"]
+    values = ["Maximumpigs/Windows/DetectionLab_Win10"]
   }
 }
 
@@ -119,17 +126,17 @@ data "aws_ami" "win10_ami" {
 # the AMI IDs
 variable "logger_ami" {
   type    = string
-  default = "ami-0314043c864de778f" #AWS Ubuntu 20.04
+  default = "ami-04f5097681773b989"
 }
 
 variable "dc_ami" {
   type    = string
-  default = "ami-0b4e4f3e2212d8c23"
+  default = "ami-004536ce94a90dd33"
 }
 
 variable "wef_ami" {
   type    = string
-  default = "ami-00d4e238e07aca8ac"
+  default = "ami-004536ce94a90dd33"
 }
 
 variable "exchange_ami" {

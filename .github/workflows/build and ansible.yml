@@ -1,0 +1,104 @@
+name: 'Apply and Ansible'
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform_build_ansible_provision:
+    runs-on: ubuntu-latest
+    env: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      TF_VAR_public_key: ${{ secrets.PUBLIC_KEY }}      
+      TF_VAR_my_ip: ${{ secrets.MY_IP }}
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_wrapper: false
+
+    # Get the public IP of the github runner to use in TF code
+    - name: Runner IP
+      id: Runner_IP
+      run: |
+        echo "TF_VAR_runner_ip=$(curl ifconfig.me)" >> $GITHUB_ENV
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      working-directory: ./AWS/Terraform_Ansible
+      run: terraform fmt -check -recursive
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init AWS
+      working-directory: ./AWS/Terraform_Ansible
+      run: terraform init -backend-config="backend.hcl"
+
+    # Applies Terraform config
+    - name: Terraform Apply AWS
+      id: apply
+      working-directory: ./AWS/Terraform_Ansible
+      run: terraform apply -auto-approve
+
+    # Gets Terraform state and generates cost using cost.modules.tf
+    - name: Terraform Get Cost AWS
+      working-directory: ./AWS/Terraform_Ansible
+      run: |
+        echo "--------COST---------" >> $GITHUB_STEP_SUMMARY
+        terraform state pull |  curl -s -X POST -H "Content-Type: application/json" -d @- https://cost.modules.tf/ >> $GITHUB_STEP_SUMMARY
+
+    # Gets Terraform state and generates cost using cost.modules.tf
+    - name: Terraform Display outputs in summary
+      working-directory: ./AWS/Terraform_Ansible
+      run: |
+        echo "--------OUTPUTS---------" >> $GITHUB_STEP_SUMMARY
+        terraform output >> $GITHUB_STEP_SUMMARY
+
+    - name: Update inventory file with current IPs
+      working-directory: ./AWS/Terraform_Ansible/ansible
+      run: |
+        sed -i 's/w.w.w.w/${{ steps.apply.outputs.logger_public_ip }}/g' inventory.yml
+        echo inventory.yml
+
+    - name: Run playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: detectionlab.yml
+        directory: ./AWS/Terraform_Ansible/ansible
+        inventory: |
+          logger:
+            hosts:
+              ${{ steps.apply.outputs.logger_public_ip }}:
+                ansible_user: vagrant
+                ansible_password: vagrant
+                ansible_port: 22
+                ansible_connection: ssh
+                ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null'
+                ansible_ssh_extra_args: "-o StrictHostKeyChecking=no"
+          dc:
+            hosts:
+              x.x.x.x:
+          wef:
+            hosts:
+              y.y.y.y:
+          win10:
+            hosts:
+              z.z.z.z:
+
+    # Removes Runner access
+    - name: Terraform Remove runner access AWS
+      working-directory: ./AWS/Terraform_Ansible
+      run: terraform apply -auto-approve -var="runner_ip=${{ secrets.MY_IP }}"

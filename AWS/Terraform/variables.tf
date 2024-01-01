@@ -55,19 +55,19 @@ variable "external_dns_servers" {
 variable "build_dc" {
   description = "Flag to build DC instance"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "build_wef" {
   description = "Flag to build WEF instance"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "build_win10" {
   description = "Flag to build WIN10 instance"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "build_logger" {
