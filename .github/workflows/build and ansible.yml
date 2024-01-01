@@ -71,7 +71,7 @@ jobs:
       id: output_ips
       working-directory: ./AWS/Terraform_Ansible
       run: |
-        echo "logger_ip=$(terraform output logger_public_ip | sed 's/"//g')" >> $GITHUB_ENV
+        echo "logger_ip=$(terraform output logger_public_ip | sed 's/"//g')" >> $GITHUB_OUTPUT
 
     - name: Update inventory file with current IPs
       working-directory: ./AWS/Terraform_Ansible/ansible
