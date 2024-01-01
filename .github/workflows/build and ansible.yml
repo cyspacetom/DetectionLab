@@ -67,10 +67,16 @@ jobs:
         echo "--------OUTPUTS---------" >> $GITHUB_STEP_SUMMARY
         terraform output >> $GITHUB_STEP_SUMMARY
 
+    - name: Get output IPs
+      id: output_ips
+      working-directory: ./AWS/Terraform_Ansible
+      run: |
+        echo "logger_ip=$(terraform output logger_public_ip | sed 's/"//g')" >> $GITHUB_ENV
+
     - name: Update inventory file with current IPs
       working-directory: ./AWS/Terraform_Ansible/ansible
       run: |
-        sed -i 's/w.w.w.w/${{ steps.apply.outputs.logger_public_ip }}/g' inventory.yml
+        sed -i 's/w.w.w.w/${{ steps.output_ips.outputs.logger_ip }}/g' inventory.yml
         cat inventory.yml
 
     - name: Run playbook
@@ -80,7 +86,7 @@ jobs:
         directory: ./AWS/Terraform_Ansible/ansible
         inventory: |
           [logger]
-          ${{ steps.apply.outputs.logger_public_ip }} ansible_user=vagrant ansible_password=vagrant ansible_port=22 ansible_connection=ssh ansible_ssh_extra_args="-o StrictHostKeyChecking=no"
+          ${{ steps.output_ips.outputs.logger_ip }} ansible_user=vagrant ansible_password=vagrant ansible_port=22 ansible_connection=ssh ansible_ssh_extra_args="-o StrictHostKeyChecking=no"
 
           [dc]
           x.x.x.x
