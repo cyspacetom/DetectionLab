@@ -7,7 +7,7 @@ output "logger_public_ip" {
 }
 
 output "logger_ssh_access" {
-  value = length(aws_instance.logger) > 0 ? "ssh vagrant@${aws_instance.logger[0].public_ip} (password=vagrant)" : null 
+  value = length(aws_instance.logger) > 0 ? "ssh vagrant@${aws_instance.logger[0].public_ip} (password=vagrant)" : null
 }
 
 output "dc_public_ip" {

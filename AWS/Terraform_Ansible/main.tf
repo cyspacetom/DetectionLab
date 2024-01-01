@@ -178,7 +178,7 @@ resource "aws_instance" "logger" {
   private_ip             = "192.168.56.105"
 
   user_data_base64 = base64encode(templatefile("cloudinit/userdata.tmpl", { auth_key = var.public_key }))
-/*
+  /*
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -qq update",
