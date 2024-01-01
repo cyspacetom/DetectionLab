@@ -59,7 +59,7 @@ jobs:
         echo "--------COST---------" >> $GITHUB_STEP_SUMMARY
         terraform state pull |  curl -s -X POST -H "Content-Type: application/json" -d @- https://cost.modules.tf/ >> $GITHUB_STEP_SUMMARY
 
-    # Gets Terraform state and generates cost using cost.modules.tf
+    # Gets Terraform Outputs and displays them in summary
     - name: Terraform Display outputs in summary
       working-directory: ./AWS/Terraform
       run: |
