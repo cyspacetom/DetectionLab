@@ -515,11 +515,12 @@
     executable: /bin/bash
   become: yes
   shell: |
+    os_release=$(lsb_release -rs)
     echo "[$(date +%H:%M:%S)]: Installing Zeek..."
     if ! grep 'zeek' /etc/apt/sources.list.d/security:zeek.list; then
-      sh -c "echo 'deb http://download.opensuse.org/repositories/security:/zeek/xUbuntu_22.04/ /' > /etc/apt/sources.list.d/security:zeek.list"
+      sh -c "echo 'deb http://download.opensuse.org/repositories/security:/zeek/xUbuntu_$lsb_release/ /' > /etc/apt/sources.list.d/security:zeek.list"
     fi
-    curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_22.04/Release.key | gpg --dearmor > /etc/apt/trusted.gpg.d/security_zeek.gpg
+    curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_$lsb_release/Release.key | gpg --dearmor > /etc/apt/trusted.gpg.d/security_zeek.gpg
 
 - name: Install Zeek Packages
   become: yes
