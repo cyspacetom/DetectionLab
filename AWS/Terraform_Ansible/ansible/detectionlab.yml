@@ -16,11 +16,11 @@
     - common
   tags: wef
 
-- hosts: exchange
-  roles:
-    - exchange
-    - common
-  tags: exchange
+#- hosts: exchange
+#  roles:
+#    - exchange
+#    - common
+#  tags: exchange
 
 - hosts: win10
   roles:

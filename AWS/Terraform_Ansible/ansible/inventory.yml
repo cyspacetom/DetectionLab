@@ -2,7 +2,7 @@
 
 logger:
   hosts:
-    w.w.w.w:
+    54.252.246.49:
       ansible_user: vagrant
       ansible_password: vagrant
       ansible_port: 22
@@ -12,14 +12,32 @@ logger:
 
 dc:
   hosts:
-    x.x.x.x:
+    3.27.153.100:
+      ansible_user: vagrant
+      ansible_password: vagrant
+      ansible_port: 5985
+      ansible_connection: winrm
+      ansible_winrm_transport: basic
+      ansible_winrm_server_cert_validation: ignore
 
 wef:
   hosts:
-    y.y.y.y:
+    3.25.73.3:
+      ansible_user: vagrant
+      ansible_password: vagrant
+      ansible_port: 5985
+      ansible_connection: winrm
+      ansible_winrm_transport: basic
+      ansible_winrm_server_cert_validation: ignore
 
 win10:
   hosts:
-    z.z.z.z:
+    3.104.121.51:
+      ansible_user: vagrant
+      ansible_password: vagrant
+      ansible_port: 5985
+      ansible_connection: winrm
+      ansible_winrm_transport: basic
+      ansible_winrm_server_cert_validation: ignore
 
 

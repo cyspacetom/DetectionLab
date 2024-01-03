@@ -55,19 +55,19 @@ variable "external_dns_servers" {
 variable "build_dc" {
   description = "Flag to build DC instance"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "build_wef" {
   description = "Flag to build WEF instance"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "build_win10" {
   description = "Flag to build WIN10 instance"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "build_logger" {
@@ -94,7 +94,7 @@ data "aws_ami" "dc_ami" {
 
   filter {
     name   = "name"
-    values = ["Maximumpigs/Windows/DetectionLab_DC"]
+    values = ["Maximumpigs/Linux/DetectionLab_Win2016_Base"]
   }
 }
 
@@ -106,7 +106,7 @@ data "aws_ami" "wef_ami" {
 
   filter {
     name   = "name"
-    values = ["Maximumpigs/Windows/DetectionLab_WEF"]
+    values = ["Maximumpigs/Linux/DetectionLab_Win2016_Base"]
   }
 }
 
@@ -118,7 +118,7 @@ data "aws_ami" "win10_ami" {
 
   filter {
     name   = "name"
-    values = ["Maximumpigs/Windows/DetectionLab_Win10"]
+    values = ["Maximumpigs/Linux/DetectionLab_Win10_Base"]
   }
 }
 
@@ -131,12 +131,12 @@ variable "logger_ami" {
 
 variable "dc_ami" {
   type    = string
-  default = "ami-004536ce94a90dd33"
+  default = ""
 }
 
 variable "wef_ami" {
   type    = string
-  default = "ami-004536ce94a90dd33"
+  default = ""
 }
 
 variable "exchange_ami" {
@@ -146,5 +146,5 @@ variable "exchange_ami" {
 
 variable "win10_ami" {
   type    = string
-  default = "ami-0353745092b12b4c1"
+  default = ""
 }

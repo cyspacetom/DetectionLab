@@ -178,31 +178,7 @@ resource "aws_instance" "logger" {
   private_ip             = "192.168.56.105"
 
   user_data_base64 = base64encode(templatefile("cloudinit/userdata.tmpl", { auth_key = var.public_key }))
-  /*
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get -qq update",
-      "sudo git clone https://github.com/MaximumPigs/DetectionLab.git /opt/DetectionLab",
-      "sudo chmod +x /opt/DetectionLab/Vagrant/logger_bootstrap.sh",
-      "sudo sed -i 's#/vagrant/resources#/opt/DetectionLab/Vagrant/resources#g' /opt/DetectionLab/Vagrant/logger_bootstrap.sh",
-      "sudo yq eval -i 'del(.af-packet[1])' /etc/suricata/suricata.yaml",
-      "sudo sed -i '1s/^/\\%YAML 1.1\\n---\\n/g' /etc/suricata/suricata.yaml",
-      "sudo cp /opt/DetectionLab/Vagrant/resources/fleet/fleet.service /etc/systemd/system/fleet.service && sudo systemctl daemon-reload && sudo service fleet restart",
-      "sudo service suricata restart",
-      "sudo /opt/DetectionLab/Vagrant/logger_bootstrap.sh splunk_only",
-      "sudo /opt/DetectionLab/Vagrant/logger_bootstrap.sh velociraptor_only",
-      "sudo systemctl stop guacd",
-      "sudo systemctl start guacd && sudo systemctl restart tomcat9"
-    ]
 
-    connection {
-      host     = coalesce(self.public_ip, self.private_ip)
-      type     = "ssh"
-      user     = "vagrant"
-      password = "vagrant"
-    }
-  }
-*/
   root_block_device {
     delete_on_termination = true
     volume_size           = 64
@@ -226,6 +202,7 @@ resource "aws_instance" "dc" {
   vpc_security_group_ids = [aws_security_group.windows.id]
   private_ip             = "192.168.56.102"
 
+/*
   provisioner "file" {
     source      = "${path.module}/scripts/bootstrap.ps1"
     destination = "C:\\Temp\\bootstrap.ps1"
@@ -248,6 +225,7 @@ resource "aws_instance" "dc" {
       host     = coalesce(self.public_ip, self.private_ip)
     }
   }
+*/
 
   root_block_device {
     delete_on_termination = true
@@ -271,6 +249,7 @@ resource "aws_instance" "wef" {
   vpc_security_group_ids = [aws_security_group.windows.id]
   private_ip             = "192.168.56.103"
 
+/*
   provisioner "file" {
     source      = "${path.module}/scripts/bootstrap.ps1"
     destination = "C:\\Temp\\bootstrap.ps1"
@@ -293,6 +272,7 @@ resource "aws_instance" "wef" {
       host     = coalesce(self.public_ip, self.private_ip)
     }
   }
+*/
 
   root_block_device {
     delete_on_termination = true
@@ -316,6 +296,7 @@ resource "aws_instance" "win10" {
   vpc_security_group_ids = [aws_security_group.windows.id]
   private_ip             = "192.168.56.104"
 
+/*
   provisioner "file" {
     source      = "${path.module}/scripts/bootstrap.ps1"
     destination = "C:\\Temp\\bootstrap.ps1"
@@ -338,6 +319,7 @@ resource "aws_instance" "win10" {
       host     = coalesce(self.public_ip, self.private_ip)
     }
   }
+*/
 
   root_block_device {
     delete_on_termination = true
