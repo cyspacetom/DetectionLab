@@ -61,7 +61,7 @@ variable "build_dc" {
 variable "build_wef" {
   description = "Flag to build WEF instance"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "build_win10" {
@@ -73,7 +73,7 @@ variable "build_win10" {
 variable "build_logger" {
   description = "Flag to build Logger instance"
   type        = bool
-  default     = true
+  default     = false
 }
 
 # Use Data Sources to resolve the AMI-ID for the Ubuntu 20.04 AMI

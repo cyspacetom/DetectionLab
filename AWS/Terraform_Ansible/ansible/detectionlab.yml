@@ -1,8 +1,8 @@
 ---
-- hosts: logger
-  roles:
-    - logger
-  tags: logger
+#- hosts: logger
+#  roles:
+#    - logger
+#  tags: logger
 
 - hosts: dc
   roles:
@@ -10,11 +10,11 @@
     - common
   tags: dc
 
-- hosts: wef
-  roles:
-    - wef
-    - common
-  tags: wef
+#- hosts: wef
+#  roles:
+#    - wef
+#    - common
+#  tags: wef
 
 #- hosts: exchange
 #  roles:

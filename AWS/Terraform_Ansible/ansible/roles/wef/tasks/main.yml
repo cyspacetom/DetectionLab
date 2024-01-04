@@ -22,18 +22,21 @@
     path: 'C:\ProgramData\Chocolatey'
   register: choco_dir
 
-- name: Install Chocolatey once to ensure .NET framework is installed.
-  win_shell: "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
-  register: choco_install
-  ignore_errors: true
+- name: Fetch .NET offline installer - Required for Chocolatey
+  win_shell: wget -uri https://download.visualstudio.microsoft.com/download/pr/2d6bb6b2-226a-4baa-bdec-798822606ff1/8494001c276a4b96804cde7829c04d7f/ndp48-x86-x64-allos-enu.exe -outfile c:\windows\temp\dot_net_install.exe
+  when: not choco_dir.stat.exists
 
-- name: Reboot after Chocolatey first install pass
-  win_reboot:
-  when: choco_install is failure
+- name: Silent install of .NET framework - Required for Chocolatey
+  win_shell: C:\Windows\Temp\dot_net_install.exe /q
+  when: not choco_dir.stat.exists
 
-- name: Install Chocolatey again after reboot to actually install it this time.
+- name: wait for reboot post .NET install
+  wait_for_connection:
+    delay: 10
+
+- name: Install Chocolatey
   win_shell: "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
-  when: choco_install is failure
+  when: not choco_dir.stat.exists
 
 - name: Install git
   win_chocolatey:
