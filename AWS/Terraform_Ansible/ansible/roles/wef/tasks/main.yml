@@ -32,7 +32,7 @@
 
 - name: wait for reboot post .NET install
   wait_for_connection:
-    delay: 10
+    delay: 30
 
 - name: Install Chocolatey
   win_shell: "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
