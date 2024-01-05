@@ -202,31 +202,6 @@ resource "aws_instance" "dc" {
   vpc_security_group_ids = [aws_security_group.windows.id]
   private_ip             = "192.168.56.102"
 
-/*
-  provisioner "file" {
-    source      = "${path.module}/scripts/bootstrap.ps1"
-    destination = "C:\\Temp\\bootstrap.ps1"
-
-    connection {
-      type     = "winrm"
-      user     = "vagrant"
-      password = "vagrant"
-      host     = coalesce(self.public_ip, self.private_ip)
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = ["powershell.exe -File C:\\Temp\\bootstrap.ps1"]
-
-    connection {
-      type     = "winrm"
-      user     = "vagrant"
-      password = "vagrant"
-      host     = coalesce(self.public_ip, self.private_ip)
-    }
-  }
-*/
-
   root_block_device {
     delete_on_termination = true
   }
@@ -249,31 +224,6 @@ resource "aws_instance" "wef" {
   vpc_security_group_ids = [aws_security_group.windows.id]
   private_ip             = "192.168.56.103"
 
-/*
-  provisioner "file" {
-    source      = "${path.module}/scripts/bootstrap.ps1"
-    destination = "C:\\Temp\\bootstrap.ps1"
-
-    connection {
-      type     = "winrm"
-      user     = "vagrant"
-      password = "vagrant"
-      host     = coalesce(self.public_ip, self.private_ip)
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = ["powershell.exe -File C:\\Temp\\bootstrap.ps1"]
-
-    connection {
-      type     = "winrm"
-      user     = "vagrant"
-      password = "vagrant"
-      host     = coalesce(self.public_ip, self.private_ip)
-    }
-  }
-*/
-
   root_block_device {
     delete_on_termination = true
   }
@@ -295,31 +245,6 @@ resource "aws_instance" "win10" {
   subnet_id              = aws_subnet.default.id
   vpc_security_group_ids = [aws_security_group.windows.id]
   private_ip             = "192.168.56.104"
-
-/*
-  provisioner "file" {
-    source      = "${path.module}/scripts/bootstrap.ps1"
-    destination = "C:\\Temp\\bootstrap.ps1"
-
-    connection {
-      type     = "winrm"
-      user     = "vagrant"
-      password = "vagrant"
-      host     = coalesce(self.public_ip, self.private_ip)
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = ["powershell.exe -File C:\\Temp\\bootstrap.ps1"]
-
-    connection {
-      type     = "winrm"
-      user     = "vagrant"
-      password = "vagrant"
-      host     = coalesce(self.public_ip, self.private_ip)
-    }
-  }
-*/
 
   root_block_device {
     delete_on_termination = true

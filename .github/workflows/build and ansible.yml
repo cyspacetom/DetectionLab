@@ -76,13 +76,10 @@ jobs:
         echo "wef_ip=$(terraform output wef_public_ip | sed 's/"//g')" >> $GITHUB_OUTPUT
         echo "win10_ip=$(terraform output win10_public_ip | sed 's/"//g')" >> $GITHUB_OUTPUT
 
-    - name: Update inventory file with current IPs
-      working-directory: ./AWS/Terraform_Ansible/ansible
-      run: |
-        sed -i 's/w.w.w.w/${{ steps.output_ips.outputs.logger_ip }}/g' inventory.yml
-        cat inventory.yml
+    - name: Wait a bit - Let cloudinit do the thing
+      run: sleep 30
 
-    - name: Run playbook
+    - name: Run Ansible playbook
       uses: dawidd6/action-ansible-playbook@v2
       with:
         playbook: detectionlab.yml
