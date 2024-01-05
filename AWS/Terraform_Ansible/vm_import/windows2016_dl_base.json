@@ -1,0 +1,10 @@
+[
+  {
+    "Description": "MaximumPigs/DetectionLab/Windows_2016_Base",
+    "Format": "ova",
+	"Licence-Type": "byol",	
+    "UserBucket": {
+        "S3Bucket": "detectionlab-ova-maximumpigs",
+        "S3Key": "windows2016_dl_base.ova"
+    }
+}]

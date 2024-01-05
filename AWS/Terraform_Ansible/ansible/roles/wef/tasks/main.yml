@@ -54,6 +54,15 @@
     chdir: 'c:\'
   when: not dir.stat.exists
 
+- name: Check if vagrant dir already exists
+  win_stat:
+    path: 'c:vagrant'
+  register: vagrant_dir
+
+- name: Delete old vagrant folder if it exists
+  win_shell: $(get-item C:\vagrant).delete()
+  when: vagrant_dir.stat.exists
+
 - name: Copy scripts to c:\vagrant
   win_shell: Copy-Item -Recurse c:\DetectionLab\Vagrant c:\vagrant
 
