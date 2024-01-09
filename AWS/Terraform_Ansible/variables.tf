@@ -94,7 +94,7 @@ data "aws_ami" "dc_ami" {
 
   filter {
     name   = "name"
-    values = ["Maximumpigs/Linux/DetectionLab_Win2016_Base"]
+    values = ["MaximumPigs/Windows/Windows_2016_DetectionLab_Base"]
   }
 }
 
@@ -106,7 +106,7 @@ data "aws_ami" "wef_ami" {
 
   filter {
     name   = "name"
-    values = ["Maximumpigs/Linux/DetectionLab_Win2016_Base"]
+    values = ["MaximumPigs/Windows/Windows_2016_DetectionLab_Base"]
   }
 }
 
@@ -118,7 +118,7 @@ data "aws_ami" "win10_ami" {
 
   filter {
     name   = "name"
-    values = ["Maximumpigs/Linux/DetectionLab_Win10_Base"]
+    values = ["MaximumPigs/Windows/DetectionLab_Windows_10_Base"]
   }
 }
 

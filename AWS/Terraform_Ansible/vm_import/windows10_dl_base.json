@@ -1,9 +1,9 @@
 [
   {
-    "Description": "MaximumPigs/DetectionLab/Windows_10_Base",
+    "Description": "MaximumPigs/Windows/DetectionLab_Windows_10_Base",
     "Format": "ova",
     "UserBucket": {
         "S3Bucket": "detectionlab-ova-maximumpigs",
-        "S3Key": "windows10_dl_base.ova"
+        "S3Key": "windows_10_dl_base.ova"
     }
 }]

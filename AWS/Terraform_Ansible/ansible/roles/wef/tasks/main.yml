@@ -28,11 +28,13 @@
 
 - name: Silent install of .NET framework - Required for Chocolatey
   win_shell: C:\Windows\Temp\dot_net_install.exe /q
+  register: install_dot_net
   when: not choco_dir.stat.exists
 
 - name: wait for reboot post .NET install
   wait_for_connection:
     delay: 30
+  when: not install_dot_net is skipped
 
 - name: Install Chocolatey
   win_shell: "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
@@ -54,14 +56,8 @@
     chdir: 'c:\'
   when: not dir.stat.exists
 
-- name: Check if vagrant dir already exists
-  win_stat:
-    path: 'c:vagrant'
-  register: vagrant_dir
-
-- name: Delete old vagrant folder if it exists
-  win_shell: $(get-item C:\vagrant).delete()
-  when: vagrant_dir.stat.exists
+- name: Delete old vagrant folder
+  win_shell: if (Test-Path -Path c:\vagrant\) {Remove-Item -Path c:\vagrant\ -Recurse -Force}
 
 - name: Copy scripts to c:\vagrant
   win_shell: Copy-Item -Recurse c:\DetectionLab\Vagrant c:\vagrant

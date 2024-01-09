@@ -16,16 +16,26 @@
     - common
   tags: wef
 
-#- hosts: exchange
-#  roles:
-#    - exchange
-#    - common
-#  tags: exchange
-
 - hosts: win10
   roles:
     - win10
     - common
   tags: win10
 
+# - hosts: win2016_base
+#   roles:
+#     - win2016_base
+#     - common
+#   tags: win10
 
+# - hosts: win10_base
+#   roles:
+#     - win10_base
+#     - common
+#   tags: win10
+
+#- hosts: exchange
+#  roles:
+#    - exchange
+#    - common
+#  tags: exchange
