@@ -55,8 +55,8 @@
   when: not dir.stat.exists
 
 - name: Delete old vagrant folder
-  win_shell: if (Test-Path -Path c:\vagrant\) {Remove-Item -Path c:\vagrant\ -Recurse -Force}
-
+  win_shell: if (Test-Path -Path c:\vagrant\) { try {Remove-Item -Path c:\vagrant\ -Recurse -Force} catch [System.ComponentModel.Win32Exception] { $(Get-Item C:\vagrant\).delete() }}
+  
 - name: Copy scripts to c:\vagrant
   win_shell: Copy-Item -Recurse c:\DetectionLab\Vagrant c:\vagrant
 

@@ -52,7 +52,7 @@ win2016_base:
 
 win10_base:
   hosts:
-    13.211.139.73:
+    3.106.139.252:
       ansible_user: vagrant
       ansible_password: vagrant
       ansible_port: 5985

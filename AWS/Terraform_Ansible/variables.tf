@@ -118,7 +118,7 @@ data "aws_ami" "win10_ami" {
 
   filter {
     name   = "name"
-    values = ["MaximumPigs/Windows/DetectionLab_Windows_10_Base"]
+    values = ["MaximumPigs/Windows/Windows_10_DetectionLab_Base"]
   }
 }
 

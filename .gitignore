@@ -1,3 +1,6 @@
+*.vmdk
+*.vmx
+*.ova
 Vagrant/.vagrant/*
 Vagrant/vagrant*.log
 Packer/packer_cache/*
