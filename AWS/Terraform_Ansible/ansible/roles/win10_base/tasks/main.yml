@@ -71,10 +71,3 @@
 
 - name: DetectionLab Menu
   win_shell: "\"C:\\Program Files\\Classic Shell\\ClassicStartMenu.exe -xml c:\\vagrant\\resources\\windows\\MenuSettings.xml\""
-
-- name: sysprep
-  win_shell: c:\windows\system32\sysprep\sysprep.exe /oobe /generalize /mode:vm /shutdown /unattend:c:\vagrant\resources\windows\unattend.xml
-  ignore_errors: true
-
-
-

@@ -18,21 +18,6 @@
     dest: /vagrant/
   become: yes
 
-#- name: Copy ESXi netplan file
-#  copy:
-#    src: ../../../ESXi/resources/01-netcfg.yaml
-#    dest: /tmp
-#    owner: vagrant
-#    group: vagrant
-
-#- name: Copy the netplan file over as root
-#  shell: "mv /tmp/01-netcfg.yaml /etc/netplan/01-netcfg.yaml"
-#  become: yes
-
-#- name: Apply the new netplan
-#  shell: netplan apply
-#  become: yes
-
 - name: Add APT Repositories
   apt_repository:
     repo: "{{ item }}"
@@ -453,7 +438,7 @@
     echo "[$(date +%H:%M:%S)]: Installing Suricata..."
 
     # Install suricata
-    apt-get -qq -y install suricata crudini
+    apt-get -qq -y install suricata crudini yq
     # Install suricata-update
     cd /opt || exit 1
     git clone https://github.com/OISF/suricata-update.git
@@ -461,8 +446,10 @@
     pip3 install pyyaml
     python3 setup.py install
 
+    LANIFACE=$(ip route get 192.168.56.1 | grep -Po '(?<=dev\s)\w+' | cut -f1 -d ' ')
     cp /vagrant/resources/suricata/suricata.yaml /etc/suricata/suricata.yaml
-    crudini --set --format=sh /etc/default/suricata '' iface eth1
+    crudini --set --format=sh /etc/default/suricata '' iface $LANIFACE
+    yq eval '.af-packet.interface[1] = "$LANIFACE"' /etc/suricata/suricata.yaml
     # update suricata signature sources
     suricata-update update-sources
     # disable protocol decode as it is duplicative of Zeek
@@ -534,6 +521,7 @@
   become: yes
   shell: |
     # Environment variables
+    LANIFACE=$(ip route get 192.168.56.1 | grep -Po '(?<=dev\s)\w+' | cut -f1 -d ' ')
     NODECFG=/opt/zeek/etc/node.cfg
     export PATH=$PATH:/opt/zeek/bin
     pip3 install zkg
@@ -569,11 +557,11 @@
     crudini --set $NODECFG proxy host localhost
 
     # Setup $CPUS numbers of Zeek workers
-    crudini --set $NODECFG worker-eth1 type worker
-    crudini --set $NODECFG worker-eth1 host localhost
-    crudini --set $NODECFG worker-eth1 interface eth1
-    crudini --set $NODECFG worker-eth1 lb_method pf_ring
-    crudini --set $NODECFG worker-eth1 lb_procs "$(nproc)"
+    crudini --set $NODECFG worker-$LANIFACE type worker
+    crudini --set $NODECFG worker-$LANIFACE host localhost
+    crudini --set $NODECFG worker-$LANIFACE interface $LANIFACE
+    crudini --set $NODECFG worker-$LANIFACE lb_method pf_ring
+    crudini --set $NODECFG worker-$LANIFACE lb_procs "$(nproc)"
 
     # Setup Zeek to run at boot
     cp /vagrant/resources/zeek/zeek.service /lib/systemd/system/zeek.service
