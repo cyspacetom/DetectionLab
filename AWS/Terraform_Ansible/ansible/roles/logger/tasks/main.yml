@@ -447,9 +447,13 @@
     python3 setup.py install
 
     LANIFACE=$(ip route get 192.168.56.1 | grep -Po '(?<=dev\s)\w+' | cut -f1 -d ' ')
+    yq eval -i "del(.af-packet[1])" /vagrant/resources/suricata/suricata.yaml
+    yq eval -i ".af-packet.interface = \"$LANIFACE\"" /vagrant/resources/suricata/suricata.yaml
+    yq eval -i ".pfring[0].interface = \"$LANIFACE\"" /vagrant/resources/suricata/suricata.yaml
+    # prepend YAML header or else suricata throws a fit
+    printf '%s\n%s\n%s\n' "%YAML 1.1" "---" "$(cat /vagrant/resources/suricata/suricata.yaml)" > /vagrant/resources/suricata/suricata.yaml    
     cp /vagrant/resources/suricata/suricata.yaml /etc/suricata/suricata.yaml
     crudini --set --format=sh /etc/default/suricata '' iface $LANIFACE
-    yq eval -i '.af-packet.interface[1] = "$LANIFACE"' /etc/suricata/suricata.yaml
     # update suricata signature sources
     suricata-update update-sources
     # disable protocol decode as it is duplicative of Zeek

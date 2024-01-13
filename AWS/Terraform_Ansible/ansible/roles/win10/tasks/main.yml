@@ -5,9 +5,12 @@
     name: win10
   register: res
 
+- name: Wait for connection - Machine seems to reboot immedaitely after name change
+  wait_for_connection:
+    delay: 30
+
 - name: Reboot
   win_reboot:
-  reboot_timeout: 900
   when: res.reboot_required
 
 - name: Set HostOnly IP Address
