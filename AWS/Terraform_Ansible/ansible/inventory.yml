@@ -2,7 +2,7 @@
 
 logger:
   hosts:
-    3.27.195.92:
+    3.106.134.118:
       ansible_user: vagrant
       ansible_password: vagrant
       ansible_port: 22
@@ -12,7 +12,7 @@ logger:
 
 dc:
   hosts:
-    3.106.231.171:
+    3.25.81.203:
       ansible_user: vagrant
       ansible_password: vagrant
       ansible_port: 5985
@@ -22,7 +22,7 @@ dc:
 
 wef:
   hosts:
-    3.25.114.111:
+    3.107.22.150:
       ansible_user: vagrant
       ansible_password: vagrant
       ansible_port: 5985
@@ -32,7 +32,7 @@ wef:
 
 win10:
   hosts:
-    3.25.57.95:
+    3.106.239.130:
       ansible_user: vagrant
       ansible_password: vagrant
       ansible_port: 5985

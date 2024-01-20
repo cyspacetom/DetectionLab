@@ -1,5 +1,10 @@
 ---
 
+- name: Install MS Edge - Required for powershell IWR
+  win_chocolatey:
+    name: microsoft-edge
+    state: present  
+
 - name: Downloading the Palantir WEF Configuration
   win_shell: ".\\download_palantir_wef.ps1"
   args:

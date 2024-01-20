@@ -197,6 +197,7 @@
       /opt/splunk/bin/splunk install app /vagrant/resources/splunk_server/asn-lookup-generator_110.tgz -auth 'admin:changeme'
       /opt/splunk/bin/splunk install app /vagrant/resources/splunk_server/lookup-file-editor_331.tgz -auth 'admin:changeme'
       /opt/splunk/bin/splunk install app /vagrant/resources/splunk_server/splunk-add-on-for-zeek-aka-bro_400.tgz -auth 'admin:changeme'
+      /opt/splunk/bin/splunk install app /vagrant/resources/splunk_server/splunk-ta-for-suricata_233.tgz -auth 'admin:changeme'      
       /opt/splunk/bin/splunk install app /vagrant/resources/splunk_server/force-directed-app-for-splunk_200.tgz -auth 'admin:changeme'
       /opt/splunk/bin/splunk install app /vagrant/resources/splunk_server/punchcard-custom-visualization_130.tgz -auth 'admin:changeme'
       /opt/splunk/bin/splunk install app /vagrant/resources/splunk_server/sankey-diagram-custom-visualization_130.tgz -auth 'admin:changeme'
@@ -448,7 +449,7 @@
 
     LANIFACE=$(ip route get 192.168.56.1 | grep -Po '(?<=dev\s)\w+' | cut -f1 -d ' ')
     yq eval -i "del(.af-packet[1])" /vagrant/resources/suricata/suricata.yaml
-    yq eval -i ".af-packet.interface = \"$LANIFACE\"" /vagrant/resources/suricata/suricata.yaml
+    yq eval -i ".af-packet[0].interface = \"$LANIFACE\"" /vagrant/resources/suricata/suricata.yaml
     yq eval -i ".pfring[0].interface = \"$LANIFACE\"" /vagrant/resources/suricata/suricata.yaml
     # prepend YAML header or else suricata throws a fit
     printf '%s\n%s\n%s\n' "%YAML 1.1" "---" "$(cat /vagrant/resources/suricata/suricata.yaml)" > /vagrant/resources/suricata/suricata.yaml    
@@ -463,12 +464,12 @@
     suricata-update enable-source ptresearch/attackdetection
 
     # Configure the Splunk inputs
-    mkdir -p /opt/splunk/etc/apps/SplunkLightForwarder/local && touch /opt/splunk/etc/apps/SplunkLightForwarder/local/inputs.conf
-    crudini --set /opt/splunk/etc/apps/SplunkLightForwarder/local/inputs.conf monitor:///var/log/suricata index suricata
-    crudini --set /opt/splunk/etc/apps/SplunkLightForwarder/local/inputs.conf monitor:///var/log/suricata sourcetype suricata:json
-    crudini --set /opt/splunk/etc/apps/SplunkLightForwarder/local/inputs.conf monitor:///var/log/suricata whitelist 'eve.json'
-    crudini --set /opt/splunk/etc/apps/SplunkLightForwarder/local/inputs.conf monitor:///var/log/suricata disabled 0
-    crudini --set /opt/splunk/etc/apps/SplunkLightForwarder/local/props.conf json_suricata TRUNCATE 0
+    mkdir -p /opt/splunk/etc/apps/TA-Suricata/local && touch /opt/splunk/etc/apps/TA-Suricata/local/inputs.conf
+    crudini --set /opt/splunk/etc/apps/TA-Suricata/local/inputs.conf monitor:///var/log/suricata index suricata
+    crudini --set /opt/splunk/etc/apps/TA-Suricata/local/inputs.conf monitor:///var/log/suricata sourcetype suricata:json
+    crudini --set /opt/splunk/etc/apps/TA-Suricata/local/inputs.conf monitor:///var/log/suricata whitelist 'eve.json'
+    crudini --set /opt/splunk/etc/apps/TA-Suricata/local/inputs.conf monitor:///var/log/suricata disabled 0
+    crudini --set /opt/splunk/etc/apps/TA-Suricata/local/props.conf json_suricata TRUNCATE 0
 
     # Update suricata and restart
     suricata-update
