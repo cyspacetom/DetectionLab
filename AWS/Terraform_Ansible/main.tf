@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 data "aws_region" "current" {}
-
+#resource = new; data = existing > reference the existing.
 # Create a VPC to launch our instances into
 resource "aws_vpc" "default" {
   cidr_block = "192.168.0.0/16"
@@ -167,7 +167,7 @@ resource "aws_key_pair" "auth" {
 
 resource "aws_instance" "logger" {
   count         = var.build_logger ? 1 : 0
-  instance_type = "t3.medium"
+  instance_type = "m6a.medium"
   ami           = coalesce(var.logger_ami, element(concat(data.aws_ami.logger_ami.*.image_id, [""]), 0))
 
   tags = tomap({ "Name" = "${var.instance_name_prefix}logger" })
@@ -187,7 +187,7 @@ resource "aws_instance" "logger" {
 
 resource "aws_instance" "dc" {
   count         = var.build_dc ? 1 : 0
-  instance_type = "t3.medium"
+  instance_type = "m6a.medium"
   depends_on = [
     aws_vpc_dhcp_options.default,
     aws_vpc_dhcp_options_association.default
@@ -209,7 +209,7 @@ resource "aws_instance" "dc" {
 
 resource "aws_instance" "wef" {
   count         = var.build_wef ? 1 : 0
-  instance_type = "t3.medium"
+  instance_type = "m6a.medium"
   depends_on = [
     aws_vpc_dhcp_options.default,
     aws_vpc_dhcp_options_association.default
@@ -231,7 +231,7 @@ resource "aws_instance" "wef" {
 
 resource "aws_instance" "win10" {
   count         = var.build_win10 ? 1 : 0
-  instance_type = "t2.large"
+  instance_type = "m6a.large"
   depends_on = [
     aws_vpc_dhcp_options.default,
     aws_vpc_dhcp_options_association.default
