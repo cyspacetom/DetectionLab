@@ -76,6 +76,9 @@ jobs:
         echo "wef_ip=$(terraform output wef_public_ip | sed 's/"//g')" >> $GITHUB_OUTPUT
         echo "win10_ip=$(terraform output win10_public_ip | sed 's/"//g')" >> $GITHUB_OUTPUT
 
+    - name: install PyWinRM for ansible
+      run: pip install pywinrm
+
     - name: Wait a bit - Let cloudinit do the thing
       run: sleep 30
 
